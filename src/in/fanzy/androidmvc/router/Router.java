@@ -5,6 +5,8 @@ package in.fanzy.androidmvc.router;
 
 import java.util.HashMap;
 
+import android.os.Bundle;
+
 /**
  * Base class for Router for defining all the routes.
  * 
@@ -31,16 +33,18 @@ public abstract class Router {
 	 *          String corresponding to the route.
 	 * @return Route object if found. else returns null.
 	 */
-	public Route getRoute(String routeStr) {
+	public AbstractRoute getRoute(String routeStr, Bundle requestBundle) {
 		Class routeCls = mRouteClassMap.get(routeStr);
 
 		if (routeCls == null) {
 			return null;
 		}
 
-		Route route;
+		AbstractRoute route;
 		try {
-			route = (Route) routeCls.newInstance();
+			route = (AbstractRoute) routeCls.newInstance();
+			// Set the bundle which contains data needed.
+			route.setRequestBundle(requestBundle);
 			return route;
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
