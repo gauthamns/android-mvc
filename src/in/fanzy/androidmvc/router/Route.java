@@ -29,4 +29,9 @@ public interface Route {
 	 */
 	public Class getActivityClass();
 
+	/**
+	 * Transition to the route.
+	 */
+	public void transitionTo();
+
 }

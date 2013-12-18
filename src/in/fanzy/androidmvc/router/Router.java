@@ -33,7 +33,7 @@ public abstract class Router {
 	 *          String corresponding to the route.
 	 * @return Route object if found. else returns null.
 	 */
-	public AbstractRoute getRoute(String routeStr, Bundle requestBundle) {
+	public Route getRoute(String routeStr, Bundle requestBundle) {
 		Class routeCls = mRouteClassMap.get(routeStr);
 
 		if (routeCls == null) {
