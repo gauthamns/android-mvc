@@ -1,0 +1,4 @@
+
+# Ignore Bin and generated folders.
+/bin
+/gen
