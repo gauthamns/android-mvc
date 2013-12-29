@@ -4,6 +4,10 @@
 package in.fanzy.androidmvc.router;
 
 import in.fanzy.androidmvc.constants.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +22,8 @@ public abstract class AbstractRoute implements Route {
 	protected Bundle mRequestBundle;
 	protected Context mContext;
 
-	public AbstractRoute(Context context) {
+	@Override
+	public void setContext(Context context) {
 		mContext = context;
 	}
 
@@ -35,5 +40,16 @@ public abstract class AbstractRoute implements Route {
 		Intent i = new Intent(mContext, getActivityClass());
 		i.putExtra(Constants.STR_REQUEST_BUNDLE, mRequestBundle);
 		mContext.startActivity(i);
+	}
+
+	public void addParamsTojsonRequest(JSONObject jsonRequest, String[] paramsStr) {
+		try {
+			for (String str : paramsStr) {
+				jsonRequest.put(str, mRequestBundle.get(str));
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 }
