@@ -22,6 +22,8 @@ public interface UIBuilder {
 	 */
 	public void setTitle();
 
+	public void onPreDataFetch(boolean isRefreshAction);
+
 	/**
 	 * Once volley response is obtained.
 	 * 

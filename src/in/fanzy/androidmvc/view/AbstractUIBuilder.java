@@ -28,8 +28,10 @@ public abstract class AbstractUIBuilder implements UIBuilder {
 
 	@Override
 	public void onDataFetchError(VolleyError error) {
-		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void onPreDataFetch(boolean isRefreshAction) {
 	}
 
 	@Override
