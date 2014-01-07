@@ -1,2 +1,167 @@
 Router:
 Extend the basic Router object and write all the routes.
+
+Similar to Rails and Ember.js, You define Routes for your pages.
+Implement Route to define your Routes. There is an abstract class AbstractRoute to help you for that purpose.
+
+Ex: 
+public class AboutRoute extends AbstractRoute {
+
+	public Class getActivityClass() {
+		return MainActivity.class;
+	}
+
+	public RequestParams getRequestParams() {
+		return null;
+	}
+
+	public UIBuilder getUIBuilder(FragmentActivity activity) {
+		return new AboutUIBuilder(activity);
+	}
+}
+
+RequestParams for fetching data from the website to show.
+
+Then, define all your routes extending the Router class.
+public class AppRouter extends Router {
+	public static final String ROUTE_ABOUT = "about";
+
+	static {
+		mRouteClassMap.put(ROUTE_ABOUT, AboutRoute.class);
+	}
+
+	public class getDefaultRouteClass() {
+		return AboutRoute.class;
+	}
+}
+
+To go to AboutRoute from anywhere:
+AppRouter.getInstance().getRoute(AppRouter.ROUTE_ABOUT, null, context).transitionTo();
+
+Example Activity:
+public class MainActivity extends FragmentActivity {
+
+	private Route mRoute;
+	private UIBuilder mUIBuilder;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		Crashlytics.start(this);
+
+		// Get the parameters.
+		loadParameters();
+
+		// Ready the UI.
+		initializeUI();
+
+		// Fetch the required Data.
+		fetchRequiredData(false);
+	}
+
+	@Override
+	protected void onPause() {
+		mUIBuilder.onActivityPause();
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mUIBuilder.onActivityResume();
+	}
+
+	@Override
+	protected void onStop() {
+		mUIBuilder.onActivityStop();
+		super.onStop();
+
+		// Analytics.
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mUIBuilder.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		mUIBuilder.onActivityStart();
+
+	}
+
+	private void fetchRequiredData(boolean isRefreshAction) {
+		RequestParams params = mRoute.getRequestParams();
+
+		// Fetch data if required. If params are given, then data needs to be
+		// fetched.
+		if (params != null) {
+			RequestDataFetcher.getInstance(this).handleDataRequest(this, params,
+					createResponseListener(), createErrorListener());
+			mUIBuilder.onPreDataFetch(isRefreshAction);
+		}
+	}
+
+	private Response.ErrorListener createErrorListener() {
+		return new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				mUIBuilder.onDataFetchError(error);
+			}
+		};
+	}
+
+	private Response.Listener<JSONObject> createResponseListener() {
+		return new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				mUIBuilder.onDataResponse(response);
+			}
+		};
+	}
+
+	private void initializeUI() {
+		mUIBuilder = mRoute.getUIBuilder(this);
+		mUIBuilder.buildUI();
+	}
+
+	private void loadParameters() {
+		Intent i = getIntent();
+		AppRouter router = AppRouter.getInstance();
+		Bundle bundle = i.getBundleExtra(Constants.STR_REQUEST_BUNDLE);
+		String route = null;
+		if (bundle != null) {
+			route = bundle.getString(Constants.STR_ROUTE);
+		}
+		mRoute = router.getRoute(route, bundle, this);
+
+		// Analytics.
+		if (!MainApplication.DEVELOPER_MODE) {
+			EasyTracker tracker = EasyTracker.getInstance(this);
+			// Name of the route.
+			tracker.set(Fields.SCREEN_NAME, route);
+			tracker.send(MapBuilder.createAppView().build());
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		mUIBuilder.onActivityCreateOptionsMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// If the UI builder handles it, return true;
+		if (mUIBuilder.onActivityOptionsItemSelected(item)) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+}
