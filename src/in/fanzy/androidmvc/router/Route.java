@@ -2,6 +2,9 @@ package in.fanzy.androidmvc.router;
 
 import in.fanzy.androidmvc.data.RequestParams;
 import in.fanzy.androidmvc.view.UIBuilder;
+
+import java.util.List;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,7 +19,7 @@ public interface Route {
 	 * 
 	 * @return
 	 */
-	public RequestParams getRequestParams();
+	public List<RequestParams> getListRequestParams();
 
 	/**
 	 * Set the context required for the route.

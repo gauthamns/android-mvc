@@ -4,6 +4,10 @@
 package in.fanzy.androidmvc.router;
 
 import in.fanzy.androidmvc.constants.Constants;
+import in.fanzy.androidmvc.data.RequestParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,4 +56,23 @@ public abstract class AbstractRoute implements Route {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<RequestParams> getListRequestParams() {
+		// By default, see if they send getRequestParams are there and use.
+		RequestParams params = getRequestParams();
+		List<RequestParams> rpList = new ArrayList<RequestParams>();
+		if (params != null) {
+			rpList.add(params);
+		}
+
+		return rpList;
+	}
+
+	/**
+	 * For only one request params by the routes.
+	 * 
+	 * @return
+	 */
+	public abstract RequestParams getRequestParams();
 }

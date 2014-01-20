@@ -4,7 +4,7 @@ Extend the basic Router object and write all the routes.
 Similar to Rails and Ember.js, You define Routes for your pages.
 Implement Route to define your Routes. There is an abstract class AbstractRoute to help you for that purpose.
 
-Ex: 
+Ex:
 public class AboutRoute extends AbstractRoute {
 
 	public Class getActivityClass() {
@@ -48,8 +48,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Crashlytics.start(this);
-
 		// Get the parameters.
 		loadParameters();
 
@@ -91,7 +89,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onStart() {
 		super.onStart();
 		mUIBuilder.onActivityStart();
-
 	}
 
 	private void fetchRequiredData(boolean isRefreshAction) {
