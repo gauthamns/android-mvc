@@ -4,6 +4,8 @@ Extend the basic Router object and write all the routes.
 Similar to Rails and Ember.js, You define Routes for your pages.
 Implement Route to define your Routes. There is an abstract class AbstractRoute to help you for that purpose.
 
+See this library in action in this app: https://play.google.com/store/apps/details?id=com.gauthamns.fantasycricket
+
 Ex:
 public class AboutRoute extends AbstractRoute {
 
