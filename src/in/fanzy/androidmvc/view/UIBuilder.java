@@ -1,6 +1,8 @@
 package in.fanzy.androidmvc.view;
 
-import org.json.JSONObject;
+import in.fanzy.androidmvc.data.AbstractData;
+
+import java.util.List;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -25,11 +27,22 @@ public interface UIBuilder {
 	public void onPreDataFetch(boolean isRefreshAction);
 
 	/**
-	 * Once volley response is obtained.
+	 * After data is obtained.
+	 * 
+	 * @param <T>
 	 * 
 	 * @param response
 	 */
-	public void onDataResponse(JSONObject response);
+	public <T extends AbstractData> void onDataObtained(T data);
+
+	/**
+	 * After data is obtained & if it is a list.
+	 * 
+	 * @param <T>
+	 * 
+	 * @param response
+	 */
+	public <T extends AbstractData> void onListDataObtained(List<T> data);
 
 	/**
 	 * To build the menu.

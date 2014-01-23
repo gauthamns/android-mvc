@@ -1,13 +1,17 @@
 package in.fanzy.androidmvc.router;
 
 import in.fanzy.androidmvc.data.RequestParams;
+import in.fanzy.androidmvc.net.RequestDataFetcher;
 import in.fanzy.androidmvc.view.UIBuilder;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 public interface Route {
 
@@ -29,11 +33,24 @@ public interface Route {
 	public void setContext(Context context);
 
 	/**
-	 * Bundle with necessary data.
+	 * Once volley response is obtained.
+	 * 
+	 * @param response
+	 */
+	public void onDataResponse(JSONObject response);
+
+	/**
+	 * Bundle with necessary data. No need to have this now.
 	 * 
 	 * @param requestBundle
 	 */
 	public void setRequestBundle(Bundle requestBundle);
+
+	/**
+	 * Fetch the relevant data.
+	 */
+	public void fetchData(boolean isRefreshAction, RequestDataFetcher dataFetcher)
+			throws JSONException;
 
 	/**
 	 * Activity which should be used for this Route.
@@ -52,6 +69,6 @@ public interface Route {
 	 * 
 	 * @return
 	 */
-	public UIBuilder getUIBuilder(FragmentActivity activity);
+	public UIBuilder getUIBuilder(Activity activity);
 
 }

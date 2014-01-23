@@ -52,6 +52,7 @@ public abstract class RequestDataFetcher {
 			Listener<JSONObject> listener, ErrorListener errorListener)
 			throws JSONException {
 
+		enhanceRequestParams(params);
 		JSONObject json = params.jsonRequest;
 		if (params.method == Method.GET && json != null) {
 			Iterator iterator = json.keys();

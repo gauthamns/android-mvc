@@ -3,10 +3,12 @@
  */
 package in.fanzy.androidmvc.view;
 
-import org.json.JSONObject;
+import in.fanzy.androidmvc.data.AbstractData;
 
+import java.util.List;
+
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,9 +22,9 @@ import com.android.volley.VolleyError;
  * 
  */
 public abstract class AbstractUIBuilder implements UIBuilder {
-	public final FragmentActivity mActivity;
+	public final Activity mActivity;
 
-	public AbstractUIBuilder(FragmentActivity activity) {
+	public AbstractUIBuilder(Activity activity) {
 		mActivity = activity;
 	}
 
@@ -31,13 +33,19 @@ public abstract class AbstractUIBuilder implements UIBuilder {
 	}
 
 	@Override
-	public void onPreDataFetch(boolean isRefreshAction) {
+	public <T extends AbstractData> void onDataObtained(T data) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void onDataResponse(JSONObject response) {
+	public <T extends AbstractData> void onListDataObtained(List<T> data) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onPreDataFetch(boolean isRefreshAction) {
 	}
 
 	@Override
