@@ -61,7 +61,7 @@ public class HttpDataParser {
 				try {
 					T dataObj;
 					dataObj = (T) parseDataObject(response.getJSONObject(dataStr),
-							dataClass);
+							dataClass, dataHolder);
 					dataHolder.addDataObject(dataObj, dataClass);
 					if (returnClass != null
 							&& returnClass.getCanonicalName() == dataClass.getCanonicalName()) {
@@ -102,10 +102,16 @@ public class HttpDataParser {
 		return data;
 	}
 
-	private <T> Object parseDataObject(JSONObject jsonObject, Class<T> dataClass) {
+	private <T extends AbstractData> Object parseDataObject(
+			JSONObject jsonObject, Class<T> dataClass, HttpDataHolder dataHolder) {
 		try {
-			InterfaceData dataObject;
-			dataObject = (InterfaceData) dataClass.newInstance();
+			long id = jsonObject.getLong(AbstractData.STR_ID);
+			// If the object is available, re use it. Else create new.
+			AbstractData dataObject = dataHolder.getDataObject(dataClass, id);
+			if (dataObject == null) {
+				dataObject = dataClass.newInstance();
+			}
+
 			dataObject.parseJSON(jsonObject);
 			return dataClass.cast(dataObject);
 		} catch (InstantiationException e) {
