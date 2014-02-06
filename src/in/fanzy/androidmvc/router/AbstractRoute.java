@@ -131,7 +131,7 @@ public abstract class AbstractRoute implements Route {
 
 		// Fetch data if required. If params are given, then data needs to be
 		// fetched.
-		if (params != null) {
+		if (params != null & dataType() > 0) {
 			dataFetcher.handleJSONObjectRequest(params, createResponseListener(),
 					createErrorListener());
 			mUIBuilder.onPreDataFetch(isRefreshAction);
