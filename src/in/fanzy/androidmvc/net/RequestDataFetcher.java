@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -29,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
  */
 public abstract class RequestDataFetcher {
 	static final Object sLock = new Object();
+	private static final int INITIAL_TIMEOUT_MS = 5000;
 	static RequestDataFetcher sInstance;
 
 	public static String DEBUG_TAG = "RequestDataFetcher";
@@ -82,6 +84,8 @@ public abstract class RequestDataFetcher {
 		JsonObjectRequest request = new JsonObjectRequest(params.method,
 				params.url, params.jsonRequest, listener, errorListener);
 
+		// No retries. Retries are hogging the server.
+		request.setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT_MS, 0, 10f));
 		Log.d(DEBUG_TAG, "Handling the http request to url " + params.url);
 		mRequestQueue.add(request);
 	}

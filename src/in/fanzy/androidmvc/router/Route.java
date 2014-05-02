@@ -60,6 +60,14 @@ public interface Route {
 	public Class getActivityClass();
 
 	/**
+	 * Request bundle. Useful for situations where we will need to build pending
+	 * intent.
+	 * 
+	 * @return
+	 */
+	public Bundle getRequestBundle();
+
+	/**
 	 * Transition to the route.
 	 */
 	public void transitionTo();

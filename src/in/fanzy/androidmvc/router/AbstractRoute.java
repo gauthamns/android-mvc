@@ -47,6 +47,11 @@ public abstract class AbstractRoute implements Route {
 		mRequestBundle = requestBundle;
 	}
 
+	@Override
+	public Bundle getRequestBundle() {
+		return mRequestBundle;
+	}
+
 	/**
 	 * Intent, and transition to the Route.
 	 */
