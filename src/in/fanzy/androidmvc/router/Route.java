@@ -1,14 +1,7 @@
 package in.fanzy.androidmvc.router;
 
-import in.fanzy.androidmvc.data.RequestParams;
-import in.fanzy.androidmvc.net.RequestDataFetcher;
+import in.fanzy.androidmvc.data.HttpDataResponseInterface;
 import in.fanzy.androidmvc.view.UIBuilder;
-
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -23,7 +16,7 @@ public interface Route {
 	 * 
 	 * @return
 	 */
-	public List<RequestParams> getListRequestParams();
+	// public List<RequestParams> getListRequestParams();
 
 	/**
 	 * Set the context required for the route.
@@ -31,13 +24,6 @@ public interface Route {
 	 * @param context
 	 */
 	public void setContext(Context context);
-
-	/**
-	 * Once volley response is obtained.
-	 * 
-	 * @param response
-	 */
-	public void onDataResponse(JSONObject response);
 
 	/**
 	 * Bundle with necessary data. No need to have this now.
@@ -49,8 +35,7 @@ public interface Route {
 	/**
 	 * Fetch the relevant data.
 	 */
-	public void fetchData(boolean isRefreshAction, RequestDataFetcher dataFetcher)
-			throws JSONException;
+	public <T extends HttpDataResponseInterface> void fetchData(boolean isRefreshAction);
 
 	/**
 	 * Activity which should be used for this Route.

@@ -3,16 +3,12 @@
  */
 package in.fanzy.androidmvc.view;
 
-import in.fanzy.androidmvc.data.AbstractData;
-
-import java.util.List;
-
+import in.fanzy.androidmvc.data.HttpDataResponseInterface;
+import retrofit.RetrofitError;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.android.volley.VolleyError;
 
 /**
  * Abstract class for building UI. Activity will take help of the UI builder to
@@ -29,17 +25,12 @@ public abstract class AbstractUIBuilder implements UIBuilder {
 	}
 
 	@Override
-	public void onDataFetchError(VolleyError error) {
+	public void onDataFetchError(RetrofitError error) {
 	}
 
 	@Override
-	public <T extends AbstractData> void onDataObtained(T data) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public <T extends AbstractData> void onListDataObtained(List<T> data) {
+	public <T extends HttpDataResponseInterface> void onDataObtained(
+			T dataResponse) {
 		// TODO Auto-generated method stub
 
 	}

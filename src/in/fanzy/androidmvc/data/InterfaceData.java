@@ -16,4 +16,5 @@ public interface InterfaceData {
 
 	public void parseJSON(JSONObject json) throws JSONException;
 
+	// public <T extends HttpDataResponseInterface> void setRelatedData(T data);
 }

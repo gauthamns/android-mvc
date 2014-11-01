@@ -1,18 +1,14 @@
 package in.fanzy.androidmvc.view;
 
-import in.fanzy.androidmvc.data.AbstractData;
-
-import java.util.List;
-
+import in.fanzy.androidmvc.data.HttpDataResponseInterface;
+import retrofit.RetrofitError;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.VolleyError;
-
 public interface UIBuilder {
 
-	public void onDataFetchError(VolleyError error);
+	public void onDataFetchError(RetrofitError error);
 
 	/**
 	 * Build the UI.
@@ -33,16 +29,8 @@ public interface UIBuilder {
 	 * 
 	 * @param response
 	 */
-	public <T extends AbstractData> void onDataObtained(T data);
-
-	/**
-	 * After data is obtained & if it is a list.
-	 * 
-	 * @param <T>
-	 * 
-	 * @param response
-	 */
-	public <T extends AbstractData> void onListDataObtained(List<T> data);
+	public <T extends HttpDataResponseInterface> void onDataObtained(
+			T dataResponse);
 
 	/**
 	 * To build the menu.
